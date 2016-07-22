@@ -1,9 +1,10 @@
 {
-  "name": "Carrots, Rabbits, Wolves",
+  "name": "carrots-rabbits-wolves",
   "version": "1.0.0",
   "description": "Simulation",
   "main": "index.js",
   "scripts": {
+    "start": "gulp dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

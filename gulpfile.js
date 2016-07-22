@@ -25,7 +25,7 @@ var environment = 'production',
         images: "./src/images",
         fonts: "./src/fonts",
         icons: "./src/icons",
-        pages: "./src/pages"
+        pages: "./src"
     };
 
 function destination(p) {
@@ -89,14 +89,8 @@ gulp.task('styles', function() {
 });
 
 gulp.task('pages', function(){
-    return gulp.src(assets.pages + '/**/*.hbs')
-        .pipe(plugins.compileHandlebars({},{
-            ignorePartials: true,
-            batch: ['src/pages/partials']
-        }))
-        .pipe( plugins.rename({extname: '.html'}))
-        .pipe(gulp.dest(destination()))
-        .pipe(developmentOnly(browserSync.reload, { stream: true }));
+    return gulp.src([assets.pages + '/**/*.html'])
+        .pipe(gulp.dest(destination()));
 });
 
 
@@ -152,7 +146,7 @@ gulp.task('watch', function() {
     gulp.watch(assets.styles + '/**/*.scss', ['styles']);
     gulp.watch(assets.icons + '/*.svg', ['iconfont']);
     gulp.watch(assets.fonts + '/**/*.*', ['fonts']);
-    gulp.watch(assets.pages + '/**/*.hbs', ['pages']);
+    gulp.watch(assets.pages + '/**/*.html', ['pages']);
 });
 
 gulp.task('build', function(callback) {
