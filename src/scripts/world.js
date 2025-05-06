@@ -3,7 +3,7 @@
 import {
     randomInt,
     randomShuffle,
-    gernerateArrayPositions,
+    generateArrayPositions,
 } from './helpers/random';
 
 import {
@@ -26,7 +26,7 @@ class World {
     constructor() {
         this.creatures = [];
 
-        const possiblePos = gernerateArrayPositions(WORLD_WIDTH, WORLD_HEIGHT);
+        const possiblePos = generateArrayPositions(WORLD_WIDTH, WORLD_HEIGHT);
         const posRand = randomShuffle(possiblePos);
         const map = this.getMap();
         this.spawnCarrots(map);

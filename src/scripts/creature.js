@@ -89,36 +89,47 @@ class Creature {
         // Generate a random number between 0-3
         // which represents the directions available to the creature
         let dir = randomInt(0, 3);
-        // Change position based on that number
-        switch (dir) {
-        case 0:
-            if (this.checkBounds(newPos, { x: newPos.x + 1 })) {
-                newPos.x++;
-                break;
+        
+        // Try each direction in sequence until a valid move is found
+        for (let attempts = 0; attempts < 4; attempts++) {
+            // Calculate current direction to try (0-3)
+            const currentDir = (dir + attempts) % 4;
+            
+            // Try to move in the current direction
+            switch (currentDir) {
+                case 0: // Try moving right
+                    if (this.checkBounds(newPos, { x: newPos.x + 1 })) {
+                        newPos.x++;
+                        this.pos = newPos;
+                        return true;
+                    }
+                    break;
+                case 1: // Try moving left
+                    if (this.checkBounds(newPos, { x: newPos.x - 1 })) {
+                        newPos.x--;
+                        this.pos = newPos;
+                        return true;
+                    }
+                    break;
+                case 2: // Try moving down
+                    if (this.checkBounds(newPos, { y: newPos.y + 1 })) {
+                        newPos.y++;
+                        this.pos = newPos;
+                        return true;
+                    }
+                    break;
+                case 3: // Try moving up
+                    if (this.checkBounds(newPos, { y: newPos.y - 1 })) {
+                        newPos.y--;
+                        this.pos = newPos;
+                        return true;
+                    }
+                    break;
             }
-            ++dir;
-        case 1:
-            if (this.checkBounds(newPos, { x: newPos.x - 1 })) {
-                newPos.x--;
-                break;
-            }
-            ++dir;
-        case 2:
-            if (this.checkBounds(newPos, { y: newPos.y + 1 })) {
-                newPos.y++;
-                break;
-            }
-            ++dir;
-        case 3:
-            if (this.checkBounds(newPos, { y: newPos.y - 1 })) {
-                newPos.y--;
-                break;
-            }
-        default:
-            return false;
         }
-        this.pos = newPos;
-        return true;
+        
+        // No valid moves found in any direction
+        return false;
     }
 
     // Checks if the given position is in bounds
