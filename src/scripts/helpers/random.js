@@ -1,4 +1,3 @@
-
 // Get a random floating point number between `min` and `max`.
 export function randomFloat(min, max) {
     return Math.random() * (max - min) + min;
@@ -11,7 +10,7 @@ export function randomInt(min, max) {
 
 // Will return an array with numbers from min - max
 // Intended to be used in conjunction with randomShuffle
-export function gernerateArrayIndexes(min, max) {
+export function generateArrayIndexes(min, max) {
     const arr = [];
     for (let i = min; i < max; i++) {
         arr.push(i);
@@ -22,7 +21,7 @@ export function gernerateArrayIndexes(min, max) {
 
 // Will return an array of positions
 // Intended to be used in conjunction with randomShuffle
-export function gernerateArrayPositions(width, height) {
+export function generateArrayPositions(width, height) {
     const arr = [];
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {

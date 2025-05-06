@@ -16,6 +16,7 @@ import {
 
 let map;
 let stats;
+let mapCells = [];
 
 // Finds creatures at the given position
 function getCreatureAtPos(creatures, pos) {
@@ -40,37 +41,61 @@ function drawStats(creatures) {
     stats.innerHTML = `C: ${cCount.cLen} - R: ${cCount.rLen} - W: ${cCount.wLen}`;
 }
 
-function drawMap(creatures) {
-    // Clear view
-    let render = '';
+// Initialize the map grid with DOM elements
+function initializeMapGrid() {
+    // Clear existing content
+    map.innerHTML = '';
+    mapCells = [];
+    
+    // Create grid cells
+    for (let y = 0; y < WORLD_HEIGHT; y++) {
+        const row = [];
+        const rowElement = document.createElement('div');
+        rowElement.className = 'map-row';
+        
+        for (let x = 0; x < WORLD_WIDTH; x++) {
+            const cell = document.createElement('span');
+            cell.className = 'map-cell';
+            cell.textContent = '----';
+            rowElement.appendChild(cell);
+            row.push(cell);
+        }
+        
+        map.appendChild(rowElement);
+        mapCells.push(row);
+        
+        // Add line break after each row
+        map.appendChild(document.createElement('br'));
+    }
+}
 
-    // Render creatures
+function drawMap(creatures) {
+    // Update existing cells instead of rebuilding the entire HTML
     for (let y = 0; y < WORLD_HEIGHT; y++) {
         for (let x = 0; x < WORLD_WIDTH; x++) {
             const creature = getCreatureAtPos(creatures, { x, y });
+            const cell = mapCells[y][x];
+            
             if (creature.length) {
                 const { name } = creature[0].constructor;
                 if (name === 'Carrot') {
-                    render += '-C-';
+                    cell.textContent = '-C-';
                 } else if (name === 'Rabbit') {
-                    render += '-R-';
+                    cell.textContent = '-R-';
                 } else if (name === 'Wolf') {
-                    render += '-W-';
+                    cell.textContent = '-W-';
                 }
             } else {
-                render += '----';
+                cell.textContent = '----';
             }
         }
-        render += '<br />';
     }
-
-    map.innerHTML = render;
 }
 
 // Draw loop responsible for rendering the UI
-function draw(creatues) {
-    drawMap(creatues);
-    drawStats(creatues);
+function draw(creatures) {
+    drawMap(creatures);
+    drawStats(creatures);
 }
 
 function update() {
@@ -98,5 +123,6 @@ function validateUserInput() {
     stats = document.getElementById('Stats');
 
     if (!validateUserInput()) return;
+    initializeMapGrid();
     update();
 })();
